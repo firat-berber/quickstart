@@ -2,20 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sociality.io Connect SDK</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <style>
-    body { padding-top: 50px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Quickstart | Sociality.io Connect</title>
 </head>
 <body>
+  <div class="bg-white">
+    <header class="absolute inset-x-0 top-0 z-50">
+      <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <div class="flex lg:flex-1">
+          <a href="#" class="-m-1.5 p-1.5">
+            <span class="text-xl">Sociality.io Connect SDK</span>
+          </a>
+        </div>
+        <div class="lg:flex lg:flex-1 lg:justify-end">
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Get API Keys <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </nav>
+    </header>
 
-  <div class="container">
-    <h1>Sociality.io Connect SDK</h1>
-
-    <a href="javascript:connect();"  type="button" class="btn btn-primary">Connect</a>
-
+    <div class="mx-auto max-w-screen-md py-24">
+      <div class="text-center">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-6xl">Quickstart</h1>
+        <p class="mt-4 text-xl text-gray-600">A sample end-to-end integration with Sociality.io Connect SDK</p>
+        <p class="mt-8 ext-gray-600 bg-slate-100 p-8 rounded-md">The integration begins when the user wants to connect their social media accounts to your product. You can test the connection flow via clicking the below connect button.</p>
+        <div class="mt-10 flex items-center justify-center gap-x-6">
+          <a href="javascript:connect();" class="text-sm font-semibold leading-6 border border-gray-400 p-4">Connect social media accounts</a>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <script>
     function connect() {
