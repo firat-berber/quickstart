@@ -37,17 +37,42 @@
       </div>
      
 
-      <div class="mt-10 border border-gray-200 text-left">
-        <div class="px-4 py-5 sm:px-6 flex items-center">
-          <div class=" flex-1">
-            <h2 class="text-base font-semibold leading-6">Accounts <span class="bg-slate-100 p-2 font-normal text-sm ">/accounts</span></h2>
-            <p class="mt-1 text-sm text-gray-500">List connected social media accounts.</p>
+      <div class="mt-10 text-left">
+
+        <div class="border border-gray-200">
+          <div class="px-4 py-5 sm:px-6 flex items-center">
+            <div class=" flex-1">
+              <h2 class="text-base font-semibold leading-6">Accounts <span class="bg-slate-100 p-2 font-normal text-sm ">/accounts</span></h2>
+              <p class="mt-1 text-sm text-gray-500">List the connected social media accounts.</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <a href="javascript:accounts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
+                Call endpoint
+              </a>
+            </div>
           </div>
-          <div class="ml-4 flex-shrink-0">
-            <a href="javascript:accounts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">Call endpoint</a>
-          </div>
+          <div id="accounts"></div>
         </div>
-        <div id="accounts"></div>
+
+        <div class="border border-gray-200 mt-10">
+          <div class="px-4 py-5 sm:px-6 flex items-center">
+            <div class=" flex-1">
+              <h2 class="text-base font-semibold leading-6">Posts <span class="bg-slate-100 p-2 font-normal text-sm ">/posts</span></h2>
+              <p class="mt-1 text-sm text-gray-500">List the latest posts of the selected social media account.</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <select name="account" id="account" class="border border-gray-200 p-2 mr-2 text-sm">
+                {{#each accounts}}
+                <option value="{{this.id}}">{{this.name}} | {{this.channel}}</option>
+                {{/each}}
+              </select>
+              <a href="javascript:posts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
+                Call endpoint
+              </a>
+            </div>
+          </div>
+          <div id="posts" class="overflow-auto"></div>
+        </div>
 
       </div>
     </div>
@@ -62,7 +87,19 @@
           console.log(text);
           document.getElementById('accounts').innerHTML = text;
         });
+    };
+
+    function posts() {
+      var account_id = document.getElementById('account').value;
+      console.log('posts account_id ', account_id);
+      fetch('http://sociality-link.test:3000/posts?account_id=' + account_id)
+        .then((response) => response.text())
+        .then((text) => { 
+          console.log(text);
+          document.getElementById('posts').innerHTML = text;
+        });
     }
+
   </script>
     
 </body>

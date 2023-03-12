@@ -17,12 +17,13 @@ let ACCESS_TOKEN = null;
 const app = express();
 
 
+
 async function getSessionToken() {
     try {
         let response = await axios({
-             url: socialityio_connect_uri + '/v1/token/session',
-             method: 'post',
-             data: {
+            url: socialityio_connect_uri + '/v1/token/session',
+            method: 'post',
+            data: {
                 client_id: socialityio_connect_client_id,
                 client_secret: socialityio_connect_client_secret,
                 client_user_id: CLIENT_USER_ID
@@ -42,9 +43,9 @@ async function getSessionToken() {
 async function getAccessToken() {
     try {
         let response = await axios({
-             url: socialityio_connect_uri + '/v1/token/access',
-             method: 'post',
-             data: {
+            url: socialityio_connect_uri + '/v1/token/access',
+            method: 'post',
+            data: {
                 client_id: socialityio_connect_client_id,
                 client_secret: socialityio_connect_client_secret,
                 client_user_id: CLIENT_USER_ID
@@ -64,14 +65,38 @@ async function getAccessToken() {
 async function getAccounts() {
     try {
         let response = await axios({
-             url: socialityio_connect_uri + '/v1/accounts',
-             method: 'get',
-             headers: {
+            url: socialityio_connect_uri + '/v1/accounts',
+            method: 'get',
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + ACCESS_TOKEN
             }
          })
          console.log('getAccounts response.data', response.data);
+         return response.data;
+     }
+     catch (err) {
+         console.error(err);
+     }
+}
+
+async function getPosts(account_id) {
+    console.log('getPosts function ', account_id);
+    try {
+        let response = await axios({
+            url: socialityio_connect_uri + '/v1/posts',
+            method: 'get',
+            data: {
+                account_id: account_id,
+                skip: 0,
+                limit: 5
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + ACCESS_TOKEN
+            }
+         })
+         console.log('getPosts response.data', response.data);
          return response.data;
      }
      catch (err) {
@@ -103,11 +128,16 @@ app.get('/callback', (req, res) => {
     var data =  getAccessToken().then(data => {
         console.log('/callback ', data);
         ACCESS_TOKEN = data.access_token;
-        console.log('/callback ACCESS_TOKEN', ACCESS_TOKEN);
-        res.send(view('dashboard.html', {
-            ACCESS_TOKEN: ACCESS_TOKEN,
-            CLIENT_USER_ID: CLIENT_USER_ID,
-        }));
+
+        var data_accounts = getAccounts().then(data_accounts => {
+            console.log('/callback getAccounts', data_accounts);
+            res.send(view('dashboard.html', {
+                ACCESS_TOKEN: ACCESS_TOKEN,
+                CLIENT_USER_ID: CLIENT_USER_ID,
+                accounts: data_accounts.data
+            }));
+        });
+        
     });
 });
 
@@ -115,6 +145,15 @@ app.get('/accounts', (req, res) => {
     var data =  getAccounts().then(data => {
         console.log('/accounts ', data);
         res.send(view('accounts.html', data));
+    });
+});
+
+app.get('/posts', (req, res) => {
+    var account_id = req.query.account_id;
+    console.log('/posts account_id ', account_id);
+    var data =  getPosts(account_id).then(data => {
+        console.log('/posts ', data);
+        res.send(view('posts.html', data));
     });
 });
 

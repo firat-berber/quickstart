@@ -2,8 +2,8 @@
   <thead class="border-b border-t font-medium">
     <tr>
       <th scope="col" class="px-6 py-4">Id</th>
-      <th scope="col" class="px-6 py-4">Channel</th>
-      <th scope="col" class="px-6 py-4">Name</th>
+      <th scope="col" class="px-6 py-4">Type</th>
+      <th scope="col" class="px-6 py-4">Published</th>
       <th scope="col" class="px-6 py-4">Ref</th>
     </tr>
   </thead>
@@ -11,8 +11,8 @@
     {{#each data}}
       <tr class="border-b">
       <td class="whitespace-nowrap px-6 py-4">{{this.id}}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{this.channel}}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{this.name}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{this.type}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{this.published_at}}</td>
       <td class="whitespace-nowrap px-6 py-4">
         <a href="{{this.link}}" target="_blank" class="underline">
           {{this.ref}} <span aria-hidden="true">&rarr;</span>
