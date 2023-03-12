@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
+const fs = require('fs');
+const Handlebars = require("handlebars");
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -77,9 +79,14 @@ async function getAccounts() {
      }
 }
 
+function view(filename, params = null) {
+    var template = Handlebars.compile(fs.readFileSync(path.join(__dirname, '/' + filename), 'utf8'));
+    return template(params);
+    
+}
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/index.html'));
+    res.send(view('index.html', []));
 });
 
 app.get('/link', (req, res) => {
@@ -97,15 +104,17 @@ app.get('/callback', (req, res) => {
         console.log('/callback ', data);
         ACCESS_TOKEN = data.access_token;
         console.log('/callback ACCESS_TOKEN', ACCESS_TOKEN);
-        res.sendFile(path.join(__dirname, '/dashboard.html'));
+        res.send(view('dashboard.html', {
+            ACCESS_TOKEN: ACCESS_TOKEN,
+            CLIENT_USER_ID: CLIENT_USER_ID,
+        }));
     });
 });
 
 app.get('/accounts', (req, res) => {
     var data =  getAccounts().then(data => {
         console.log('/accounts ', data);
-        res.setHeader('Content-Type', 'application/json');
-        res.send(data);
+        res.send(view('accounts.html', data));
     });
 });
 

@@ -1,0 +1,24 @@
+<table class="min-w-full text-left text-sm font-light">
+  <thead class="border-b border-t font-medium dark:border-neutral-500">
+    <tr>
+      <th scope="col" class="px-6 py-4">Id</th>
+      <th scope="col" class="px-6 py-4">Channel</th>
+      <th scope="col" class="px-6 py-4">Name</th>
+      <th scope="col" class="px-6 py-4">Ref</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+      <tr class="border-b dark:border-neutral-500">
+      <td class="whitespace-nowrap px-6 py-4">{{this.id}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{this.channel}}</td>
+      <td class="whitespace-nowrap px-6 py-4">
+        <a href="{{this.link}}" target="_blank" class="underline">
+          {{this.name}} <span aria-hidden="true">&rarr;</span>
+        </a>
+      </td>
+      <td class="whitespace-nowrap px-6 py-4">{{this.ref}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

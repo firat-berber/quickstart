@@ -12,7 +12,7 @@
     <header class="absolute inset-x-0 top-0 z-50">
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
-          <a href="#" class="-m-1.5 p-1.5">
+          <a href="/" class="-m-1.5 p-1.5">
             <span class="text-xl">Sociality.io Connect SDK</span>
           </a>
         </div>
@@ -23,56 +23,31 @@
       <div class="text-center">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-6xl">Congrats!</h1>
         <p class="mt-4 text-xl text-gray-600">You connected your social media accounts.</p>
-        <p class="mt-8 ext-gray-600 bg-slate-100 p-8 rounded-md">
-          <span class="font-medium">access_token:</span> 123123123  
-        </p>
+      </div>
 
-        <div class="mt-10 border border-gray-200 text-left">
-          <div class="px-4 py-5 sm:px-6 flex items-center">
-            <div class=" flex-1">
-              <h2 class="text-base font-semibold leading-6">Accounts <span class="bg-slate-100 p-2 font-normal text-sm ">/accounts</span></h2>
-              <p class="mt-1 text-sm text-gray-500">List connected social media accounts.</p>
-            </div>
-            <div class="ml-4 flex-shrink-0">
-              <a href="javascript:accounts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">Call endpoint</a>
-            </div>
+      <div class="mt-8 ext-gray-600 bg-slate-100 p-4 rounded-md">
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium">User Id</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{CLIENT_USER_ID}}</dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium">Access token</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 break-all">{{ACCESS_TOKEN}}</dd>
+        </div>
+      </div>
+     
 
+      <div class="mt-10 border border-gray-200 text-left">
+        <div class="px-4 py-5 sm:px-6 flex items-center">
+          <div class=" flex-1">
+            <h2 class="text-base font-semibold leading-6">Accounts <span class="bg-slate-100 p-2 font-normal text-sm ">/accounts</span></h2>
+            <p class="mt-1 text-sm text-gray-500">List connected social media accounts.</p>
           </div>
-
-          <div class="">
-            <table class="min-w-full text-left text-sm font-light">
-              <thead class="border-b border-t font-medium dark:border-neutral-500">
-                <tr>
-                  <th scope="col" class="px-6 py-4">Id</th>
-                  <th scope="col" class="px-6 py-4">Name</th>
-                  <th scope="col" class="px-6 py-4">Handle</th>
-                  <th scope="col" class="px-6 py-4">Ref</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                  <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                  <td class="whitespace-nowrap px-6 py-4">Otto</td>
-                  <td class="whitespace-nowrap px-6 py-4">@mdo</td>
-                </tr>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                  <td class="whitespace-nowrap px-6 py-4">Jacob</td>
-                  <td class="whitespace-nowrap px-6 py-4">Thornton</td>
-                  <td class="whitespace-nowrap px-6 py-4">@fat</td>
-                </tr>
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                  <td class="whitespace-nowrap px-6 py-4">Larry</td>
-                  <td class="whitespace-nowrap px-6 py-4">Wild</td>
-                  <td class="whitespace-nowrap px-6 py-4">@twitter</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="ml-4 flex-shrink-0">
+            <a href="javascript:accounts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">Call endpoint</a>
           </div>
         </div>
-
+        <div id="accounts"></div>
 
       </div>
     </div>
@@ -82,9 +57,10 @@
   <script>
     function accounts() {
       fetch('http://sociality-link.test:3000/accounts')
-        .then((response) => response.json())
-        .then((data) => { 
-          console.log('data ', data);
+        .then((response) => response.text())
+        .then((text) => { 
+          console.log(text);
+          document.getElementById('accounts').innerHTML = text;
         });
     }
   </script>
