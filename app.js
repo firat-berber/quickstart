@@ -5,19 +5,25 @@ const fs = require('fs');
 const Handlebars = require("handlebars");
 require('dotenv').config();
 
-const port = process.env.PORT;
-const socialityio_connect_uri = process.env.SOCIALITYIO_CONNECT_URI;
+const port = process.env.PORT || 3000;
+const socialityio_connect_uri = process.env.SOCIALITYIO_CONNECT_URI || "https://connect.sociality.io";
 const socialityio_connect_client_id = process.env.SOCIALITYIO_CONNECT_CLIENT_ID;
 const socialityio_connect_client_secret = process.env.SOCIALITYIO_CONNECT_CLIENT_SECRET;
 
+
+// This should correspond to a unique id for the current user in your database.
+// Typically, this will be a user ID number from your application.
+// Personally identifiable information, such as an email address or phone number, should not be used here.
 let CLIENT_USER_ID = 'unique_client_user_id';
+
 // We store the access_token in memory - in production, store it in a secure persistent data store
 let ACCESS_TOKEN = null;
+
 
 const app = express();
 
 
-
+// Create a session token with configs which we can then use to initialize Sociality.io Connect client-side.
 async function getSessionToken() {
     try {
         let response = await axios({
@@ -40,6 +46,7 @@ async function getSessionToken() {
      }
 }
 
+// Get the access token of the given CLIENT_USER_ID
 async function getAccessToken() {
     try {
         let response = await axios({
@@ -62,6 +69,7 @@ async function getAccessToken() {
      }
 }
 
+// Fetch the connected social media accounts.
 async function getAccounts() {
     try {
         let response = await axios({
@@ -80,6 +88,7 @@ async function getAccounts() {
      }
 }
 
+// Fetch the latest posts of the given social media account.
 async function getPosts(account_id) {
     console.log('getPosts function ', account_id);
     try {
@@ -104,16 +113,20 @@ async function getPosts(account_id) {
      }
 }
 
+// Internal function for rendering views
 function view(filename, params = null) {
-    var template = Handlebars.compile(fs.readFileSync(path.join(__dirname, '/' + filename), 'utf8'));
+    var template = Handlebars.compile(fs.readFileSync(path.join(__dirname, '/views/' + filename), 'utf8'));
     return template(params);
     
 }
 
+// Returns the home page of the quickstart app
 app.get('/', (req, res) => {
     res.send(view('index.html', []));
 });
 
+// Returns the session link for redirecting the user to the Connect UI.
+// The session link is valid for 10 mins. 
 app.get('/link', (req, res) => {
     var data =  getSessionToken().then(data => {
         console.log('/link ', data);
@@ -124,6 +137,8 @@ app.get('/link', (req, res) => {
     });
 });
 
+// When the user completed the social media integration, this function will be called.
+// Don't forget to add the callback function URL `http://localhost:3000/callback/` to the `redirect` field of your Sociality.io Connect SDK app.
 app.get('/callback', (req, res) => {
     var data =  getAccessToken().then(data => {
         console.log('/callback ', data);
@@ -141,6 +156,7 @@ app.get('/callback', (req, res) => {
     });
 });
 
+// Returns the social media accounts of the connected user
 app.get('/accounts', (req, res) => {
     var data =  getAccounts().then(data => {
         console.log('/accounts ', data);
@@ -148,6 +164,7 @@ app.get('/accounts', (req, res) => {
     });
 });
 
+// Returns the social media posts of the selected social media accounts
 app.get('/posts', (req, res) => {
     var account_id = req.query.account_id;
     console.log('/posts account_id ', account_id);
