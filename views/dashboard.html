@@ -81,7 +81,7 @@
 
   <script>
     function accounts() {
-      fetch('http://sociality-link.test:3000/accounts')
+      fetch('{{app_url}}/accounts')
         .then((response) => response.text())
         .then((text) => { 
           console.log(text);
@@ -92,7 +92,7 @@
     function posts() {
       var account_id = document.getElementById('account').value;
       console.log('posts account_id ', account_id);
-      fetch('http://sociality-link.test:3000/posts?account_id=' + account_id)
+      fetch('{{app_url}}/posts?account_id=' + account_id)
         .then((response) => response.text())
         .then((text) => { 
           console.log(text);

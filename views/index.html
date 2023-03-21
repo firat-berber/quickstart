@@ -36,7 +36,7 @@
 
   <script>
     function connect() {
-      fetch('http://sociality-link.test:3000/link')
+      fetch('{{app_url}}/link')
         .then((response) => response.json())
         .then((data) => { 
           console.log('data ', data);

@@ -10,6 +10,8 @@ const socialityio_connect_uri = process.env.SOCIALITYIO_CONNECT_URI || "https://
 const socialityio_connect_client_id = process.env.SOCIALITYIO_CONNECT_CLIENT_ID;
 const socialityio_connect_client_secret = process.env.SOCIALITYIO_CONNECT_CLIENT_SECRET;
 
+//The URL of the quickstart project
+let app_url = 'http://localhost:' + port;
 
 // This should correspond to a unique id for the current user in your database.
 // Typically, this will be a user ID number from your application.
@@ -122,7 +124,9 @@ function view(filename, params = null) {
 
 // Returns the home page of the quickstart app
 app.get('/', (req, res) => {
-    res.send(view('index.html', []));
+    res.send(view('index.html', {
+        app_url: app_url,
+    }));
 });
 
 // Returns the session link for redirecting the user to the Connect UI.
@@ -149,6 +153,7 @@ app.get('/callback', (req, res) => {
             res.send(view('dashboard.html', {
                 ACCESS_TOKEN: ACCESS_TOKEN,
                 CLIENT_USER_ID: CLIENT_USER_ID,
+                app_url: app_url,
                 accounts: data_accounts.data
             }));
         });
