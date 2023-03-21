@@ -16,10 +16,10 @@ const socialityio_connect_client_secret = process.env.SOCIALITYIO_CONNECT_CLIENT
 // Personally identifiable information, such as an email address or phone number, should not be used here.
 let CLIENT_USER_ID = 'unique_client_user_id';
 
-// We store the access_token in memory - in production, store it in a secure persistent data store
+// We store the access_token in memory - in production, store it as encrypted in a secure persistent data store by
 let ACCESS_TOKEN = null;
 
-
+// Start up the server
 const app = express();
 
 
