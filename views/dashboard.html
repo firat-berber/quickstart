@@ -57,13 +57,13 @@
         <div class="border border-gray-200 mt-10">
           <div class="px-4 py-5 sm:px-6 flex items-center">
             <div class=" flex-1">
-              <h2 class="text-base font-semibold leading-6">Account <span class="bg-slate-100 p-2 font-normal text-sm ">/account</span></h2>
+              <h2 class="text-base font-semibold leading-6">Account <span class="bg-slate-100 p-2 font-normal text-sm ">/accounts/{account_id}</span></h2>
               <p class="mt-1 text-sm text-gray-500">Get the data of the given account.</p>
             </div>
             <div class="ml-4 flex-shrink-0">
               <select name="account" id="account" class="border border-gray-200 p-2 mr-2 text-sm">
                 {{#each accounts}}
-                <option value="{{this.id}}">{{this.name}} (id: {{this.id}})</option>
+                <option value="{{this.id}}">{{this.name}} (account_id: {{this.id}})</option>
                 {{/each}}
               </select>
               <a href="javascript:account();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
@@ -83,7 +83,7 @@
             <div class="ml-4 flex-shrink-0">
               <select name="post_account" id="post_account" class="border border-gray-200 p-2 mr-2 text-sm">
                 {{#each accounts}}
-                <option value="{{this.id}}">{{this.name}} (id: {{this.id}})</option>
+                <option value="{{this.id}}">{{this.name}} (account_id: {{this.id}})</option>
                 {{/each}}
               </select>
               <a href="javascript:posts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
@@ -97,13 +97,13 @@
         <div class="border border-gray-200 mt-10">
           <div class="px-4 py-5 sm:px-6 flex items-center">
             <div class=" flex-1">
-              <h2 class="text-base font-semibold leading-6">Post <span class="bg-slate-100 p-2 font-normal text-sm ">/posts/{id}</span></h2>
+              <h2 class="text-base font-semibold leading-6">Post <span class="bg-slate-100 p-2 font-normal text-sm ">/posts/{post_id}</span></h2>
               <p class="mt-1 text-sm text-gray-500">Get the data of the given post.</p>
             </div>
             <div class="ml-4 flex-shrink-0">
               <select name="post" id="post" class="border border-gray-200 p-2 mr-2 text-sm">
                 {{#each posts}}
-                <option value="{{this.id}}">{{../account.name}} > (Post id: {{this.id}})</option>
+                <option value="{{this.id}}">{{../account.name}} > (post_id: {{this.id}})</option>
                 {{/each}}
               </select>
               <a href="javascript:post();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
