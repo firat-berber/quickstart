@@ -90,6 +90,26 @@ async function getAccounts() {
      }
 }
 
+// Fetch the the account by the given id
+async function getAccount(account_id) {
+    console.log('getAccount function ', account_id);
+    try {
+        let response = await axios({
+            url: socialityio_connect_uri + '/v1/accounts/' + account_id,
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + ACCESS_TOKEN
+            }
+         })
+         console.log('getAccount response.data', response.data);
+         return response.data;
+     }
+     catch (err) {
+         console.error(err);
+     }
+}
+
 // Fetch the latest posts of the given social media account.
 async function getPosts(account_id) {
     console.log('getPosts function ', account_id);
@@ -98,9 +118,11 @@ async function getPosts(account_id) {
             url: socialityio_connect_uri + '/v1/posts',
             method: 'get',
             data: {
-                account_id: account_id,
+                account_id: [account_id],
                 skip: 0,
-                limit: 5
+                limit: 5,
+                // status: ['READY', 'IN_PROGRESS', 'PUBLISHED', 'FAILURE']
+                // type: ['TEXT', 'IMAGE', 'VIDEO', 'CAROUSEL', 'LINK', 'REELS', 'STORY', 'POLL', 'DOCUMENT']
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -108,6 +130,26 @@ async function getPosts(account_id) {
             }
          })
          console.log('getPosts response.data', response.data);
+         return response.data;
+     }
+     catch (err) {
+         console.error(err);
+     }
+}
+
+// Fetch the the post by the given id
+async function getPost(post_id) {
+    console.log('getPost function ', post_id);
+    try {
+        let response = await axios({
+            url: socialityio_connect_uri + '/v1/posts/' + post_id,
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + ACCESS_TOKEN
+            }
+         })
+         console.log('getPost response.data', response.data);
          return response.data;
      }
      catch (err) {
@@ -150,12 +192,17 @@ app.get('/callback', (req, res) => {
 
         var data_accounts = getAccounts().then(data_accounts => {
             console.log('/callback getAccounts', data_accounts);
-            res.send(view('dashboard.html', {
-                ACCESS_TOKEN: ACCESS_TOKEN,
-                CLIENT_USER_ID: CLIENT_USER_ID,
-                app_url: app_url,
-                accounts: data_accounts.data
-            }));
+            var account = data_accounts.data[0];
+            var data_posts = getPosts(account.id).then(data_posts => {
+                res.send(view('dashboard.html', {
+                    ACCESS_TOKEN: ACCESS_TOKEN,
+                    CLIENT_USER_ID: CLIENT_USER_ID,
+                    app_url: app_url,
+                    accounts: data_accounts.data,
+                    account: account,
+                    posts: data_posts.data,
+                }));
+            });
         });
         
     });
@@ -169,6 +216,15 @@ app.get('/accounts', (req, res) => {
     });
 });
 
+// Returns the account of the given id
+app.get('/account', (req, res) => {
+    var account_id = req.query.account_id;
+    var data =  getAccount(account_id).then(data => {
+        console.log('/account ', data);
+        res.send(view('json.html', { json: JSON.stringify(data, null, 2)}));
+    });
+});
+
 // Returns the social media posts of the selected social media accounts
 app.get('/posts', (req, res) => {
     var account_id = req.query.account_id;
@@ -176,6 +232,15 @@ app.get('/posts', (req, res) => {
     var data =  getPosts(account_id).then(data => {
         console.log('/posts ', data);
         res.send(view('posts.html', data));
+    });
+});
+
+// Returns the post of the given id
+app.get('/post', (req, res) => {
+    var post_id = req.query.post_id;
+    var data =  getPost(post_id).then(data => {
+        console.log('/post ', data);
+        res.send(view('json.html', { json: JSON.stringify(data, null, 2)}));
     });
 });
 

@@ -51,7 +51,27 @@
               </a>
             </div>
           </div>
-          <div id="accounts"></div>
+          <div id="accounts_result" class="overflow-auto"></div>
+        </div>
+
+        <div class="border border-gray-200 mt-10">
+          <div class="px-4 py-5 sm:px-6 flex items-center">
+            <div class=" flex-1">
+              <h2 class="text-base font-semibold leading-6">Account <span class="bg-slate-100 p-2 font-normal text-sm ">/account</span></h2>
+              <p class="mt-1 text-sm text-gray-500">Get the data of the given account.</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <select name="account" id="account" class="border border-gray-200 p-2 mr-2 text-sm">
+                {{#each accounts}}
+                <option value="{{this.id}}">{{this.name}} (id: {{this.id}})</option>
+                {{/each}}
+              </select>
+              <a href="javascript:account();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
+                Call endpoint
+              </a>
+            </div>
+          </div>
+          <div id="account_result" class="overflow-auto bg-slate-100"></div>
         </div>
 
         <div class="border border-gray-200 mt-10">
@@ -61,9 +81,9 @@
               <p class="mt-1 text-sm text-gray-500">List the latest posts of the selected social media account.</p>
             </div>
             <div class="ml-4 flex-shrink-0">
-              <select name="account" id="account" class="border border-gray-200 p-2 mr-2 text-sm">
+              <select name="post_account" id="post_account" class="border border-gray-200 p-2 mr-2 text-sm">
                 {{#each accounts}}
-                <option value="{{this.id}}">{{this.name}} | {{this.channel}}</option>
+                <option value="{{this.id}}">{{this.name}} (id: {{this.id}})</option>
                 {{/each}}
               </select>
               <a href="javascript:posts();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
@@ -71,7 +91,27 @@
               </a>
             </div>
           </div>
-          <div id="posts" class="overflow-auto"></div>
+          <div id="posts_result" class="overflow-auto"></div>
+        </div>
+
+        <div class="border border-gray-200 mt-10">
+          <div class="px-4 py-5 sm:px-6 flex items-center">
+            <div class=" flex-1">
+              <h2 class="text-base font-semibold leading-6">Post <span class="bg-slate-100 p-2 font-normal text-sm ">/posts/{id}</span></h2>
+              <p class="mt-1 text-sm text-gray-500">Get the data of the given post.</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <select name="post" id="post" class="border border-gray-200 p-2 mr-2 text-sm">
+                {{#each posts}}
+                <option value="{{this.id}}">{{../account.name}} > (Post id: {{this.id}})</option>
+                {{/each}}
+              </select>
+              <a href="javascript:post();" class="text-sm font-semibold leading-6 border border-gray-400 p-2">
+                Call endpoint
+              </a>
+            </div>
+          </div>
+          <div id="post_result" class="overflow-auto bg-slate-100"></div>
         </div>
 
       </div>
@@ -85,18 +125,40 @@
         .then((response) => response.text())
         .then((text) => { 
           console.log(text);
-          document.getElementById('accounts').innerHTML = text;
+          document.getElementById('accounts_result').innerHTML = text;
         });
     };
 
-    function posts() {
+    function account() {
       var account_id = document.getElementById('account').value;
+      console.log('account account_id ', account_id);
+      fetch('{{app_url}}/account?account_id=' + account_id)
+        .then((response) => response.text())
+        .then((text) => { 
+          console.log(text);
+          document.getElementById('account_result').innerHTML = text;
+        });
+    }
+
+    function posts() {
+      var account_id = document.getElementById('post_account').value;
       console.log('posts account_id ', account_id);
       fetch('{{app_url}}/posts?account_id=' + account_id)
         .then((response) => response.text())
         .then((text) => { 
           console.log(text);
-          document.getElementById('posts').innerHTML = text;
+          document.getElementById('posts_result').innerHTML = text;
+        });
+    }
+
+    function post() {
+      var post_id = document.getElementById('post').value;
+      console.log('post post_id ', post_id);
+      fetch('{{app_url}}/post?post_id=' + post_id)
+        .then((response) => response.text())
+        .then((text) => { 
+          console.log(text);
+          document.getElementById('post_result').innerHTML = text;
         });
     }
 
