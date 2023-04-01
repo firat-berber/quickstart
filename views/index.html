@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Quickstart | Sociality.io Connect</title>
+  <title>Quickstart | Sociality.io SDK</title>
 </head>
 <body>
   <div class="bg-white">
@@ -12,11 +12,11 @@
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
           <a href="/" class="-m-1.5 p-1.5">
-            <span class="text-xl">Sociality.io Connect SDK</span>
+            <span class="text-xl">Sociality.io SDK</span>
           </a>
         </div>
         <div class="lg:flex lg:flex-1 lg:justify-end">
-          <a href="https://connect.sociality.io/dashboard" class="text-sm font-semibold leading-6 text-gray-900">Get API Keys <span aria-hidden="true">&rarr;</span></a>
+          <a href="https://sdk.sociality.io/dashboard" class="text-sm font-semibold leading-6 text-gray-900">Get API Keys <span aria-hidden="true">&rarr;</span></a>
         </div>
       </nav>
     </header>
@@ -24,7 +24,7 @@
     <div class="mx-auto max-w-screen-md py-24">
       <div class="text-center">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-6xl">Quickstart</h1>
-        <p class="mt-4 text-xl text-gray-600">A sample end-to-end integration with Sociality.io Connect SDK</p>
+        <p class="mt-4 text-xl text-gray-600">A sample end-to-end integration with Sociality.io SDK</p>
         <p class="mt-8 ext-gray-600 bg-slate-100 p-8 rounded-md">The integration begins when the user wants to connect their social media accounts to your product. You can test the connection flow via clicking the below connect button.</p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <a href="javascript:connect();" class="text-sm font-semibold leading-6 border border-gray-400 p-4">Connect social media accounts</a>
@@ -36,7 +36,7 @@
 
   <script>
     function connect() {
-      fetch('{{app_url}}/link')
+      fetch('{{app_url}}/session')
         .then((response) => response.json())
         .then((data) => { 
           console.log('data ', data);

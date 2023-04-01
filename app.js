@@ -6,9 +6,9 @@ const Handlebars = require("handlebars");
 require('dotenv').config();
 
 const port = process.env.PORT || 3000;
-const socialityio_connect_uri = process.env.SOCIALITYIO_CONNECT_URI || "https://connect.sociality.io";
-const socialityio_connect_client_id = process.env.SOCIALITYIO_CONNECT_CLIENT_ID;
-const socialityio_connect_client_secret = process.env.SOCIALITYIO_CONNECT_CLIENT_SECRET;
+const socialityio_sdk_uri = process.env.SOCIALITYIO_sdk_URI || "https://sdk.sociality.io";
+const socialityio_sdk_client_id = process.env.SOCIALITYIO_SDK_CLIENT_ID;
+const socialityio_sdk_client_secret = process.env.SOCIALITYIO_SDK_CLIENT_SECRET;
 
 //The URL of the quickstart project
 let app_url = 'http://localhost:' + port;
@@ -25,15 +25,15 @@ let ACCESS_TOKEN = null;
 const app = express();
 
 
-// Create a session token with configs which we can then use to initialize Sociality.io Connect client-side.
+// Create a session token with configs which we can then use to initialize Sociality.io SDK client-side.
 async function getSessionToken() {
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/token/session',
+            url: socialityio_sdk_uri + '/v1/token/session',
             method: 'post',
             data: {
-                client_id: socialityio_connect_client_id,
-                client_secret: socialityio_connect_client_secret,
+                client_id: socialityio_sdk_client_id,
+                client_secret: socialityio_sdk_client_secret,
                 client_user_id: CLIENT_USER_ID
             },
              headers: {
@@ -52,11 +52,11 @@ async function getSessionToken() {
 async function getAccessToken() {
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/token/access',
+            url: socialityio_sdk_uri + '/v1/token/access',
             method: 'post',
             data: {
-                client_id: socialityio_connect_client_id,
-                client_secret: socialityio_connect_client_secret,
+                client_id: socialityio_sdk_client_id,
+                client_secret: socialityio_sdk_client_secret,
                 client_user_id: CLIENT_USER_ID
             },
              headers: {
@@ -75,7 +75,7 @@ async function getAccessToken() {
 async function getAccounts() {
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/accounts',
+            url: socialityio_sdk_uri + '/v1/accounts',
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ async function getAccount(account_id) {
     console.log('getAccount function ', account_id);
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/accounts/' + account_id,
+            url: socialityio_sdk_uri + '/v1/accounts/' + account_id,
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ async function getPosts(account_id) {
     console.log('getPosts function ', account_id);
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/posts',
+            url: socialityio_sdk_uri + '/v1/posts',
             method: 'get',
             data: {
                 account_id: [account_id],
@@ -142,7 +142,7 @@ async function getPost(post_id) {
     console.log('getPost function ', post_id);
     try {
         let response = await axios({
-            url: socialityio_connect_uri + '/v1/posts/' + post_id,
+            url: socialityio_sdk_uri + '/v1/posts/' + post_id,
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -171,11 +171,11 @@ app.get('/', (req, res) => {
     }));
 });
 
-// Returns the session link for redirecting the user to the Connect UI.
+// Returns the session link for redirecting the user to the SDK UI.
 // The session link is valid for 10 mins. 
-app.get('/link', (req, res) => {
+app.get('/session', (req, res) => {
     var data =  getSessionToken().then(data => {
-        console.log('/link ', data);
+        console.log('/session ', data);
         res.setHeader('Content-Type', 'application/json');
         res.send({
             session_link: data.session_link
@@ -184,7 +184,7 @@ app.get('/link', (req, res) => {
 });
 
 // When the user completed the social media integration, this function will be called.
-// Don't forget to add the callback function URL `http://localhost:3000/callback/` to the `redirect` field of your Sociality.io Connect SDK app.
+// Don't forget to add the callback function URL `http://localhost:3000/callback/` to the `redirect` field of your Sociality.io SDK app.
 app.get('/callback', (req, res) => {
     var data =  getAccessToken().then(data => {
         console.log('/callback ', data);
