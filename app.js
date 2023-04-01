@@ -25,6 +25,10 @@ let ACCESS_TOKEN = null;
 const app = express();
 
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 // Create a session token with configs which we can then use to initialize Sociality.io SDK client-side.
 async function getSessionToken() {
     try {
@@ -185,11 +189,13 @@ app.get('/session', (req, res) => {
 
 // When the user completed the social media integration, this function will be called.
 // Don't forget to add the callback function URL `http://localhost:3000/callback/` to the `redirect` field of your Sociality.io SDK app.
-app.get('/callback', (req, res) => {
+app.get('/callback', async (req, res) => {
+    // Wait for two seconds to allow time for backend processing.
+    await delay(2000);
+
     var data =  getAccessToken().then(data => {
         console.log('/callback ', data);
         ACCESS_TOKEN = data.access_token;
-
         var data_accounts = getAccounts().then(data_accounts => {
             console.log('/callback getAccounts', data_accounts);
             var account = data_accounts.data[0];
