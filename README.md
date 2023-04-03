@@ -1,7 +1,9 @@
 # Sociality.io SDK quickstart
-Example project for using Sociality.io SDK.
+This Quickstart is intended to demonstrate multiple Sociality.io SDK endpoints by using `Node.js` on the backend part. In this quickstart, you’ll learn:
 
-This Quickstart is intended to demonstrate various products and configurations, featuring multiple Sociality.io SDK endpoints. The sample project was developed based on node.js as the backend.
+- How Sociality.io SDK works without writing a line of code
+- How your users will be connected to your app
+- How to `GET` accounts, their posts and post details
 
 ![Sociality.io SDK quickstart app](/assets/quickstart.jpg)
 
