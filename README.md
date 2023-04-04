@@ -19,12 +19,20 @@ cd quickstart
 cp .env.example .env
 ```
 
-Copy `.env.example` to a new file called `.env` and fill out the environment variables inside. 
-`SOCIALITYIO_SDK_CLIENT_ID` and `SOCIALITYIO_SDK_CLIENT_SECRET` must be filled out. 
-Get your Sociality.io SDK API keys from the dashboard: https://sdk.sociality.io/dashboard
+Copy `.env.example` to a new file called `.env` and fill out the environment variables inside.
 
-## 3. Set up your redirect URL
-Add the callback function URL `http://localhost:3000/callback/` to the `redirect` field of your Sociality.io SDK app: https://sdk.sociality.io/dashboard
+Remember:
+
+- Your `SOCIALITYIO_SDK_CLIENT_ID` and `SOCIALITYIO_SDK_CLIENT_SECRET` must be filled out.
+- You can get your Client ID and secrets from the dashboard: [https://sdk.sociality.io/dashboard](https://sdk.sociality.io/dashboard)
+
+> REMINDER: `.env` files are handy for local development purposes. But you shouldn’t run a production application using an environment file with secrets in it.
+>
+
+## 3. Be sure your redirect URL is set
+Your callback function URL is set as `http://localhost:3000/callback/` as default on your dashboard, but you can change it if necessary: [https://sdk.sociality.io/dashboard](https://sdk.sociality.io/dashboard)
+
+Add your callback function URL to your `redirect` field of your Sociality.io SDK app.
 
 ## 4. Run the Quickstart
 
@@ -40,4 +48,5 @@ $ npm install
 $ node app.js
 ```
 
-The quickstart is now running on http://localhost:3000.
+That’s it!
+The quickstart is now running on [http://localhost:3000](http://localhost:3000/).
